@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "my-app",
+    "name": "Literatur Quiz",
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,10 +21,23 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.marinaoroz.myapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0bae0dd9-1387-4eb5-83ff-f3628622f54a"
+      }
+    },
+    "owner": "marinaoroz",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0bae0dd9-1387-4eb5-83ff-f3628622f54a"
     }
   }
 }

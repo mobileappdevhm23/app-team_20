@@ -7,19 +7,19 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.headerText}>Choose a level!</Text>
       <View style={styles.buttonContainerDifficulty}>
         <TouchableOpacity
-          style={styles.buttonDifficulty}
+          style={styles.buttonDifficultyEasy}
           onPress={() => navigation.navigate('Quiz', { difficulty: 'easy' })}
         >
           <Text style={styles.buttonText}>Easy</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.buttonDifficulty}
+          style={styles.buttonDifficultyMedium}
           onPress={() => navigation.navigate('Quiz', { difficulty: 'medium' })}
         >
           <Text style={styles.buttonText}>Medium</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.buttonDifficulty}
+          style={styles.buttonDifficultyHard}
           onPress={() => navigation.navigate('Quiz', { difficulty: 'hard' })}
         >
           <Text style={styles.buttonText}>Hard</Text>
@@ -60,16 +60,64 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonDifficulty: {
-    backgroundColor: '#fff',
+  buttonDifficultyEasy: {
+    backgroundColor: '#66A07D',
     paddingVertical: 40,
     width: '48%',
     borderRadius: 20,
-    margin: 10
+    margin: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.35)',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  buttonDifficultyMedium: {
+    backgroundColor: '#EDB74A',
+    paddingVertical: 40,
+    width: '48%',
+    borderRadius: 20,
+    margin: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.35)',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  buttonDifficultyHard: {
+    backgroundColor: '#C6566B',
+    paddingVertical: 40,
+    width: '48%',
+    borderRadius: 20,
+    margin: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.35)',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
   buttonText: {
     fontSize: 16,
     textAlign: 'center',
+    fontWeight: 'bold'
   },
   navigationBar: {
     position: 'absolute',

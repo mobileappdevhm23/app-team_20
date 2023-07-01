@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 
 const StartScreen = ({ navigation }) => {
     const handleStartButtonPress = () => {
@@ -8,13 +8,8 @@ const StartScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../assets/lampe.png')}
-                style={styles.image}
-            />
             <View style={styles.overlay}>
-                <Text style={styles.title}>Welcome to the</Text>
-                <Text style={styles.titleName}>Literature Quiz App!</Text>
+                <Text style={styles.titleName}> Welcome to the {'\n'} Literature Quiz App!</Text>
                 <Text style={styles.text}>Immerse yourself in the fascinating world of books and test your knowledge.{'\n'}{'\n'}Are you ready to take on exciting challenges? Explore the magic and the treasures of literature. Let the curtain rise and delve into captivating stories and masterpieces.{'\n'}{'\n'}Find out how well-versed you are in the realms of literature!</Text>
                 <TouchableOpacity
                     style={styles.button}
@@ -24,6 +19,10 @@ const StartScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <Image
+                source={require('../assets/lampe.png')}
+                style={styles.image}
+            />
+            <Image
                 source={require('../assets/books.png')}
                 style={styles.image2}
             />
@@ -31,30 +30,34 @@ const StartScreen = ({ navigation }) => {
     );
 };
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#f4f4f4',
-        paddingHorizontal: '5%',
-        paddingVertical: '10%',
+        marginTop: windowHeight * 0.22
     },
     image: {
         flex: 1,
-        width: '130%',
-        height: '130%',
+        width: '120%',
+        height: '120%',
         resizeMode: 'contain',
-        marginTop: '120%',
-        marginRight: '20%',
+        marginRight: windowWidth * 0.15,
+        top: windowHeight * 0.18,
+        zIndex: 1,
     },
     image2: {
-        width: '60%',
-        height: '60%',
+        width: windowWidth * 0.6,
+        height: windowWidth * 0.6,
         resizeMode: 'contain',
         position: 'absolute',
-        left: '10%',
-        bottom: '-18%',
+        left: windowWidth * 0.03,
+        bottom: windowHeight * 0.001,
+        zIndex: 2,
     },
     overlay: {
         flex: 1,
@@ -63,40 +66,34 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        zIndex: 1,
+        zIndex: 3,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    title: {
-        fontSize: 24,
-        marginTop: '40%',
-        marginLeft: '15%',
+        marginBottom: windowHeight * 0.42
     },
     titleName: {
-        fontSize: 24,
+        fontSize: windowWidth * 0.06,
         fontWeight: 'bold',
-        marginLeft: '15%',
+        marginLeft: windowWidth * -0.29,
     },
     button: {
         backgroundColor: '#DDDDDD',
-        paddingVertical: 20,
-        paddingHorizontal: 10,
-        borderRadius: 20,
-        width: '30%',
-        left: '1%',
-        bottom: '10%',
+        borderRadius: windowWidth * 0.1,
+        padding: windowHeight * 0.02,
+        top: windowHeight * 0.14,
+        zIndex: 4,
     },
     buttonText: {
-        fontSize: 20,
+        fontSize: windowWidth * 0.05,
         fontWeight: 'bold',
         color: '#333333',
         textAlign: 'center',
     },
     text: {
-        fontSize: 16,
-        padding: 50,
-        marginBottom: '35%',
-        marginLeft: '2%',
+        fontSize: windowWidth * 0.04,
+        padding: windowWidth * 0.18,
+        marginLeft: windowWidth * -0.1,
+        marginTop: windowHeight * -0.05
     },
 });
 

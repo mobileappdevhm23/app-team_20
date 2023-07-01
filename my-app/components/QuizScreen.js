@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const QuizScreen = ({ navigation, route }) => {
@@ -8,34 +8,53 @@ const QuizScreen = ({ navigation, route }) => {
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   const saveScore = async () => {
     try {
       const scores = await AsyncStorage.getItem('quizScores');
       const parsedScores = scores ? JSON.parse(scores) : [];
-      const newScore = { score: score, totalQuestions: questions.length }; // Hier wird der Score übergeben
+      const newScore = {
+        score: score,
+        totalQuestions: questions.length,
+        difficulty: route.params.difficulty,
+        date: new Date().toLocaleDateString(),
+      };
       parsedScores.push(newScore);
       await AsyncStorage.setItem('quizScores', JSON.stringify(parsedScores));
     } catch (error) {
       console.log(error);
     }
   };
-  
+
 
   useEffect(() => {
     fetchQuestions(route.params.difficulty);
   }, []);
 
+  useEffect(() => {
+    calculateProgress();
+  }, [currentQuestion]);
+
   const fetchQuestions = async (difficulty) => {
     try {
       const response = await fetch(
-        `https://opentdb.com/api.php?amount=10&category=10&difficulty=${difficulty}&type=multiple`
+        `https://opentdb.com/api.php?amount=23&category=10&difficulty=${difficulty}&type=multiple`
       );
       const data = await response.json();
-      setQuestions(data.results);
+      const randomizedQuestions = getRandomQuestions(data.results, 10);
+      setQuestions(randomizedQuestions);
     } catch (error) {
       console.log(error);
     }
+  };
+  
+  const getRandomQuestions = (questions, count) => {
+    if (questions.length <= count) {
+      return questions;
+    }
+    const shuffledQuestions = questions.sort(() => 0.5 - Math.random());
+    return shuffledQuestions.slice(0, count);
   };
 
   const handleAnswer = (isCorrect, index) => {
@@ -58,11 +77,30 @@ const QuizScreen = ({ navigation, route }) => {
   };
 
   const cleanQuestionText = (questionText, buttonText) => {
-    return questionText.replaceAll('&quot;', '"').replaceAll('&#039;', '´').replaceAll('&amp; ', '&');
+    return questionText
+      .replaceAll('&quot;', '"')
+      .replaceAll('&#039;', '´')
+      .replaceAll('&amp; ', '&')
+      .replaceAll('&euml;', 'e')
+      .replaceAll('&eacute;', 'e')
+      .replaceAll('&rsquo;', '´');
   };
 
   const cleanAnswerText = (answerText) => {
-    return answerText.replaceAll('&quot;', '"').replaceAll('&amp; ', '&').replaceAll('&#039;', '´');
+    return answerText
+      .replaceAll('&quot;', '"')
+      .replaceAll('&amp; ', '&')
+      .replaceAll('&#039;', '´')
+      .replaceAll('&euml;', 'e')
+      .replaceAll('&eacute;', 'e')
+      .replaceAll('&rsquo;', '´');
+  };
+
+  const calculateProgress = () => {
+    const totalQuestions = questions.length;
+    const currentProgress = ((currentQuestion + 1) / totalQuestions) * 100;
+    const adjustedProgress = currentProgress - (100 / totalQuestions);
+    setProgress(adjustedProgress);
   };
 
   const renderQuiz = () => {
@@ -88,73 +126,87 @@ const QuizScreen = ({ navigation, route }) => {
     const cleanedCorrectAnswer = cleanAnswerText(question.correct_answer);
 
     return (
-      <View style={styles.quizContainer}>
-        <Text style={styles.questionText}>{cleanedQuestionText}</Text>
-        <View style={styles.buttonContainer}>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                selectedAnswer === 0 && styles.selectedButton2,
-              ]}
-              onPress={() => handleAnswer(false, 0)}
-              disabled={selectedAnswer !== null}
-            >
-              <Text style={styles.buttonText}>{cleanedAnswers[0]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                selectedAnswer === 1 && styles.selectedButton2,
-              ]}
-              onPress={() => handleAnswer(false, 1)}
-              disabled={selectedAnswer !== null}
-            >
-              <Text style={styles.buttonText}>{cleanedAnswers[1]}</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                selectedAnswer === 2 && styles.selectedButton2,
-              ]}
-              onPress={() => handleAnswer(false, 2)}
-              disabled={selectedAnswer !== null}
-            >
-              <Text style={styles.buttonText}>{cleanedAnswers[2]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                selectedAnswer === 3 && styles.selectedButton,
-              ]}
-              onPress={() => handleAnswer(true, 3)}
-              disabled={selectedAnswer !== null}
-            >
-              <Text style={styles.buttonText}>{cleanedCorrectAnswer}</Text>
-            </TouchableOpacity>
+      <View>
+        <View style={styles.progressBarContainer}>
+          <View style={styles.progressBar}>
+            <View style={[styles.progress, { width: `${progress}%` }]} />
           </View>
         </View>
-        <View style={styles.navigationBar}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Text style={styles.buttonText}>Home</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Score')}>
-            <Text style={styles.buttonText}>Score</Text>
-          </TouchableOpacity>
+        <View style={styles.quizContainer}>
+          <Text style={styles.questionText}>{cleanedQuestionText}</Text>
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedAnswer === 0 && styles.selectedButton2,
+                ]}
+                onPress={() => handleAnswer(false, 0)}
+                disabled={selectedAnswer !== null}
+              >
+                <Text style={styles.buttonText}>{cleanedAnswers[0]}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedAnswer === 1 && styles.selectedButton2,
+                ]}
+                onPress={() => handleAnswer(false, 1)}
+                disabled={selectedAnswer !== null}
+              >
+                <Text style={styles.buttonText}>{cleanedAnswers[1]}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedAnswer === 2 && styles.selectedButton2,
+                ]}
+                onPress={() => handleAnswer(false, 2)}
+                disabled={selectedAnswer !== null}
+              >
+                <Text style={styles.buttonText}>{cleanedAnswers[2]}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedAnswer === 3 && styles.selectedButton,
+                  selectedAnswer !== null &&
+                  !question.incorrect_answers.includes(cleanedCorrectAnswer) &&
+                  styles.selectedButton,
+                ]}
+                onPress={() => handleAnswer(true, 3)}
+                disabled={selectedAnswer !== null}
+              >
+                <Text style={styles.buttonText}>{cleanedCorrectAnswer}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
     );
   };
 
-  const renderScore = () => (
-    <View style={styles.scoreContainer}>
-      <Text style={styles.scoreText}>
-        You scored {score} out of {questions.length}
-      </Text>
-    </View>
-  );
+  const renderScore = () => {
+    let imageSource = null;
+    if (score <= 3) {
+      imageSource = require('../assets/buch-sad.png');
+    } else if (score >= 4 && score <= 7) {
+      imageSource = require('../assets/buch-normal.png');
+    } else {
+      imageSource = require('../assets/buch-happy.png');
+    }
+
+    return (
+      <View style={styles.scoreContainer}>
+        <Image source={imageSource} style={styles.scoreImage} />
+        <Text style={styles.scoreText}>
+          You scored {score} out of {questions.length}
+        </Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -175,6 +227,9 @@ const QuizScreen = ({ navigation, route }) => {
   );
 };
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -187,6 +242,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
+    marginBottom: '80%',
   },
   questionText: {
     fontSize: 18,
@@ -216,15 +272,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectedButton: {
-    backgroundColor: 'green', // Change to the desired color for the selected answer
+    backgroundColor: '#66A07D', // Change to the desired color for the selected answer
   },
   selectedButton2: {
-    backgroundColor: 'red', // Change to the desired color for the selected answer
+    backgroundColor: '#C6566B', // Change to the desired color for the selected answer
   },
   scoreContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: windowHeight * 0.3
   },
   scoreText: {
     fontSize: 24,
@@ -251,6 +308,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333333',
+  },
+  progressBar: {
+    width: '80%',
+    height: 15,
+    backgroundColor: '#DDDDDD',
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  progress: {
+    height: '100%',
+    backgroundColor: '#878787', // Change to the desired color for the progress bar
+  },
+  progressBarContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scoreImage: {
+    width: 300,
+    height: 300,
+    resizeMode: 'contain',
+    marginTop: 20,
   },
 });
 
