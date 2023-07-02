@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
   },
   progress: {
     height: '100%',
-    backgroundColor: '#878787', // Change to the desired color for the progress bar
+    backgroundColor: '#878787',
   },
   progressBarContainer: {
     flex: 1,

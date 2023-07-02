@@ -6,21 +6,17 @@ import * as Permissions from 'expo-permissions';
 const NotificationsComponent = () => {
   useEffect(() => {
     const schedulePushNotification = async () => {
-      // Request permission for notifications
       let { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       if (status !== 'granted') {
         console.log('Permission for push notifications not granted');
         return;
       }
 
-      // Set up the notification schedule
       const trigger = {
         hour: 11,
         minute: 40,
-        repeats: true, // Repeats daily at the specified time
+        repeats: true,
       };
-
-      // Create the notification
       const notificationContent = {
         title: 'Komm und spiele ein Quiz',
         body: 'Es ist Zeit, ein Quiz zu spielen!',
@@ -44,7 +40,7 @@ const NotificationsComponent = () => {
     schedulePushNotification();
   }, []);
 
-  return null; // Since this component doesn't render any UI, return null
+  return null;
 };
 
 export default NotificationsComponent;
