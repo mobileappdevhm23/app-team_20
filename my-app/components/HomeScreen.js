@@ -29,12 +29,12 @@ const HomeScreen = ({ navigation }) => {
       <TouchableOpacity
           onPress={() => navigation.navigate('Home')}
         >
-          <Text style={styles.buttonText}>Home</Text>
+          <Text style={styles.NavbuttonText2}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('Score')}
         >
-          <Text style={styles.buttonText}>Score</Text>
+          <Text style={styles.NavbuttonText}>Score</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f4f4f4',
+    backgroundColor: 'white',
   },
   headerText: {
     fontSize: 24,
@@ -129,6 +129,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: '#f0f0f0'
+  },
+  NavbuttonText: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  NavbuttonText2: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
 });
 

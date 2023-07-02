@@ -38,8 +38,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f4f4f4',
-        marginTop: windowHeight * 0.22
+        backgroundColor: '#FFFFFF', // Hintergrundfarbe auf Weiß setzen
     },
     image: {
         flex: 1,
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
         height: '120%',
         resizeMode: 'contain',
         marginRight: windowWidth * 0.15,
-        top: windowHeight * 0.18,
+        top: windowHeight * 0.3,
         zIndex: 1,
     },
     image2: {
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         position: 'absolute',
         left: windowWidth * 0.03,
-        bottom: windowHeight * 0.001,
+        top: windowHeight * 0.72,
         zIndex: 2,
     },
     overlay: {
@@ -74,14 +73,26 @@ const styles = StyleSheet.create({
     titleName: {
         fontSize: windowWidth * 0.06,
         fontWeight: 'bold',
-        marginLeft: windowWidth * -0.29,
+        marginLeft: windowWidth * -0.19,
+        marginTop: windowHeight * 0.2
     },
     button: {
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#f0f0f0',
         borderRadius: windowWidth * 0.1,
         padding: windowHeight * 0.02,
-        top: windowHeight * 0.14,
+        top: windowHeight * 0.15,
         zIndex: 4,
+        ...Platform.select({
+            ios: {
+              shadowColor: 'rgba(0, 0, 0, 0.35)',
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 1,
+              shadowRadius: 15,
+            },
+            android: {
+              elevation: 5,
+            },
+          }),
     },
     buttonText: {
         fontSize: windowWidth * 0.05,
@@ -92,7 +103,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: windowWidth * 0.04,
         padding: windowWidth * 0.18,
-        marginLeft: windowWidth * -0.1,
+        marginLeft: windowWidth * -0.05,
         marginTop: windowHeight * -0.05
     },
 });

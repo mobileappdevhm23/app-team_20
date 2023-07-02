@@ -69,10 +69,10 @@ const ScoreScreen = ({ navigation }) => {
       </ScrollView>
       <View style={styles.navigationBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.buttonText}>Home</Text>
+          <Text style={styles.NavbuttonText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Score')}>
-          <Text style={styles.buttonText}>Score</Text>
+          <Text style={styles.NavbuttonText2}>Score</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -82,7 +82,7 @@ const ScoreScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f4f4f4',
+    backgroundColor: 'white',
   },
   contentContainer: {
     padding: '10%',
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   scoreItem: {
     flexDirection: 'row',
-    marginBottom: '11%',
+    marginBottom: '5%',
   },
   leftColumn: {
     flex: 1,
@@ -129,20 +129,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: '#f0f0f0'
   },
   navigationButton: {
-    backgroundColor: '#DDDDDD',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
   },
-  buttonText: {
-    fontSize: 16,
-    textAlign: 'center',
-  },
   text: {
     fontSize: 16,
     textAlign: 'left'
+  },
+  NavbuttonText: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  NavbuttonText2: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
 });
 

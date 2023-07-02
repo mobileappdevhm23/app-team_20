@@ -217,10 +217,10 @@ const QuizScreen = ({ navigation, route }) => {
       )}
       <View style={styles.navigationBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.buttonText}>Home</Text>
+          <Text style={styles.NavbuttonText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Score')}>
-          <Text style={styles.buttonText}>Score</Text>
+          <Text style={styles.NavbuttonText}>Score</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f4f4f4',
+    backgroundColor: 'white',
   },
   quizContainer: {
     flex: 1,
@@ -246,14 +246,15 @@ const styles = StyleSheet.create({
   },
   questionText: {
     fontSize: 18,
-    marginBottom: 20,
-    padding: 30,
+    marginBottom: 30,
+    marginLeft: 5,
+    marginRight: 5,
     textAlign: 'center',
     fontWeight: 'bold',
   },
   buttonContainer: {
     width: '100%',
-    marginBottom: 20,
+    marginTop: 10,
     paddingHorizontal: 20,
   },
   buttonRow: {
@@ -262,10 +263,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: '#DDDDDD',
+    backgroundColor: 'white',
     paddingVertical: 40,
     width: '48%',
     borderRadius: 20,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.35)',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
   buttonText: {
     fontSize: 16,
@@ -297,9 +309,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+
   },
   navigationButton: {
-    backgroundColor: '#DDDDDD',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
@@ -312,7 +325,7 @@ const styles = StyleSheet.create({
   progressBar: {
     width: '80%',
     height: 15,
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#f0f0f0',
     borderRadius: 5,
     overflow: 'hidden',
   },
@@ -324,6 +337,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: windowHeight * 0.1
   },
   scoreImage: {
     width: 300,
@@ -331,6 +345,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginTop: 20,
   },
+  NavbuttonText: {
+    fontSize: 16,
+    textAlign: 'center',
+  }
 });
 
 export default QuizScreen;

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "799999363007",
+    "project_id": "literatur-quiz",
+    "storage_bucket": "literatur-quiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799999363007:android:52275ee9b7d63116a2430a",
+        "android_client_info": {
+          "package_name": "com.marinaoroz.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799999363007-p3q1k7hrvgpuc8odep98551jnks53mqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGLYRy6ODgix3u4yoKVY5q9rT-X9PVAbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799999363007-p3q1k7hrvgpuc8odep98551jnks53mqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
